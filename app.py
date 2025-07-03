@@ -228,8 +228,10 @@ st.markdown("---")
 st.markdown(
     "<div style='text-align: center; color: gray;'>"
     "Được xây dựng với ❤️ sử dụng Streamlit và Gemini API/"
-    "AIzaSyC-15hPKiCNbXlbbjmllSm95uyB98w----/"
+    "AIzaSyDTxyIyE_j-6-K_FycZKcLJsAiZNy----/"
     "AIzaSyCaFFTGjFLPojwbglFRuwLS3-Q-aXk----/"
+    "AIzaSyAaCUt4nMWM43fILvu3RS0ADQZufMN----/"
+
     "</div>", 
     unsafe_allow_html=True
 ) 
