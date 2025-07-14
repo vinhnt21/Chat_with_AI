@@ -37,7 +37,6 @@ with st.expander("⚙️ Cấu hình Model và Prompts", expanded=False):
         
     with col2:
         temperature = st.slider("Temperature:", 0.0, 1.0, 0.3, 0.05, key="trans_temp")
-        max_tokens = st.number_input("Max Tokens:", min_value=50, max_value=4096, value=1500, key="trans_tokens")
 
 # --- Custom Prompts Section ---
 with st.expander("📝Custom Prompts"):
@@ -125,7 +124,6 @@ def process_task(prompt_template, input_text, task_name):
             messages=messages,
             model=selected_model,
             temperature=temperature,
-            max_tokens=max_tokens,
             system_prompt=f"Bạn là một chuyên gia {task_name}. Hãy thực hiện nhiệm vụ một cách chính xác và chi tiết."
         )
         
@@ -254,6 +252,7 @@ with st.expander("💡 Hướng dẫn sử dụng"):
     - Bạn có thể copy kết quả từ từng tab
     - Điều chỉnh temperature để kiểm soát độ sáng tạo (thấp = chính xác hơn)
     - Model khác nhau có thể cho kết quả khác nhau
+    - AI sẽ dịch toàn bộ nội dung không giới hạn độ dài
     
     **⚠️ Xử lý lỗi Safety Filter:**
     - **Google Gemini** có bộ lọc an toàn strict, có thể chặn một số nội dung
