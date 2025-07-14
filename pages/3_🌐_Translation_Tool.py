@@ -132,11 +132,22 @@ def process_task(prompt_template, input_text, task_name):
         # Collect full response
         full_response = ""
         for chunk in response_stream:
-            full_response += chunk
+            if chunk:  # Check if chunk is not empty
+                full_response += chunk
+        
+        # Check if response is empty or contains error messages
+        if not full_response.strip():
+            return f"⚠️ Không nhận được phản hồi cho {task_name}. Thử chuyển sang model khác."
+        
+        if full_response.strip().startswith("⚠️") or full_response.strip().startswith("❌"):
+            return full_response.strip()
             
         return full_response.strip()
     except Exception as e:
-        return f"Lỗi xử lý {task_name}: {str(e)}"
+        error_message = str(e)
+        if "safety" in error_message.lower() or "finish_reason" in error_message:
+            return f"⚠️ {task_name} bị chặn bởi bộ lọc an toàn. Vui lòng thử văn bản khác hoặc model khác."
+        return f"❌ Lỗi xử lý {task_name}: {error_message}"
 
 # --- Main Processing ---
 if st.button("🚀 Phân tích ngay", type="primary", use_container_width=True):
@@ -243,6 +254,13 @@ with st.expander("💡 Hướng dẫn sử dụng"):
     - Bạn có thể copy kết quả từ từng tab
     - Điều chỉnh temperature để kiểm soát độ sáng tạo (thấp = chính xác hơn)
     - Model khác nhau có thể cho kết quả khác nhau
+    
+    **⚠️ Xử lý lỗi Safety Filter:**
+    - **Google Gemini** có bộ lọc an toàn strict, có thể chặn một số nội dung
+    - Nếu gặp lỗi "bị chặn bởi bộ lọc an toàn":
+      - Thử chuyển sang **OpenAI**, **Anthropic** hoặc **DeepSeek**
+      - Hoặc điều chỉnh văn bản đầu vào để tránh từ ngữ nhạy cảm
+      - Sử dụng prompts ít "directive" hơn
     """)
 
 st.markdown("---")

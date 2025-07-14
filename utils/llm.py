@@ -53,9 +53,31 @@ class GoogleProvider(LLMProvider):
             "temperature": temperature,
             "max_output_tokens": max_tokens,
         }
+        
+        # Configure safety settings to be less restrictive
+        safety_settings = [
+            {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_ONLY_HIGH"
+            },
+            {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_ONLY_HIGH"
+            },
+            {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_ONLY_HIGH"
+            },
+            {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_ONLY_HIGH"
+            },
+        ]
+        
         gemini_model = genai.GenerativeModel(
             model_name=model,
             generation_config=generation_config,
+            safety_settings=safety_settings,
             system_instruction=system_prompt
         )
         # Gemini API xử lý history khác, nó không nhận role 'assistant' trong mảng messages
@@ -69,9 +91,21 @@ class GoogleProvider(LLMProvider):
         if history_for_gemini and history_for_gemini[-1]['role'] == 'user':
              last_user_message = history_for_gemini.pop()['parts']
              chat_session = gemini_model.start_chat(history=history_for_gemini)
-             response = chat_session.send_message(last_user_message, stream=True)
-             for chunk in response:
-                 yield chunk.text
+             try:
+                 response = chat_session.send_message(last_user_message, stream=True)
+                 for chunk in response:
+                     if hasattr(chunk, 'text') and chunk.text:
+                         yield chunk.text
+                     elif hasattr(chunk, 'parts') and chunk.parts:
+                         for part in chunk.parts:
+                             if hasattr(part, 'text') and part.text:
+                                 yield part.text
+             except Exception as e:
+                 # Handle safety filter blocks and other errors
+                 if "finish_reason" in str(e) or "safety" in str(e).lower():
+                     yield "⚠️ Nội dung bị chặn bởi bộ lọc an toàn của Gemini. Vui lòng thử lại với văn bản khác hoặc chuyển sang model khác."
+                 else:
+                     yield f"❌ Lỗi Gemini API: {str(e)}"
 
 class AnthropicProvider(LLMProvider):
     """Triển khai cho Anthropic Claude."""
