@@ -24,17 +24,22 @@ def home_page():
     **Các công cụ có sẵn:**
 
     - **💬 Chat AI:** Trò chuyện trực tiếp với các mô hình AI như GPT, Gemini, Claude, DeepSeek.
-    - **📝 Prompt Manager:** Tạo, lưu trữ và quản lý các System Prompt yêu thích của bạn.
+    - **🎨 Prompt Template Manager:** Tạo và quản lý các template prompt với biến động, render prompt tự động.
+    - **📝 System Prompt Manager:** Tạo, lưu trữ và quản lý các System Prompt yêu thích của bạn.
     - **🌐 Translation Tool:** Dịch thuật, tóm tắt và phân tích văn bản chuyên sâu.
 
     **Để bắt đầu:**
 
     1.  **Nhập cấu hình:** Mở thanh sidebar bên trái (nếu đang ẩn).
-    2.  **Dán `MongoDB URI` của bạn:** Điều này cần thiết để lưu trữ prompts và lịch sử chat.
+    2.  **Nhập `User Key`:** Sử dụng key ADMIN hoặc GUEST để truy cập vào database riêng biệt.
     3.  **Chọn `Nhà cung cấp API` và dán `API Key` tương ứng.**
     4.  **Khám phá các công cụ!**
 
-    Tất cả thông tin cấu hình của bạn chỉ được lưu trong phiên làm việc hiện tại và sẽ bị xóa khi bạn đóng trình duyệt.
+    **Lưu ý:** Mỗi User Key có dữ liệu riêng biệt:
+    - **ADMIN:** Có quyền truy cập đầy đủ với database riêng
+    - **GUEST:** Có quyền truy cập cơ bản với database riêng
+    
+    Tất cả dữ liệu được phân tách hoàn toàn giữa các user group.
     """)
 
     st.info("💡 **Mẹo:** Bạn có thể chuyển đổi giữa các công cụ bằng cách sử dụng thanh điều hướng bên trái.")
@@ -43,7 +48,8 @@ def home_page():
 pages = [
     st.Page(home_page, title="Home", icon="🏠", default=True),
     st.Page("pages/3_🌐_Translation_Tool.py", title="Translation Tool", icon="🌐"),
-    st.Page("pages/2_📝_Prompt_Manager.py", title="Prompt Manager", icon="📝"),    
+    st.Page("pages/4_🎨_Prompt_Template_Manager.py", title="Prompt Template Manager", icon="🎨"),
+    st.Page("pages/2_📝_System_Prompt_Manager.py", title="System Prompt Manager", icon="📝"),    
     st.Page("pages/1_💬_Chat_AI.py", title="Chat AI", icon="💬"),
 ]
 

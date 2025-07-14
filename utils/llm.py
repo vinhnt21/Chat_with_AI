@@ -27,13 +27,20 @@ class OpenAIProvider(LLMProvider):
 
     def chat_stream(self, messages, model, temperature, max_tokens, system_prompt):
         messages_with_system = [{"role": "system", "content": system_prompt}] + messages
-        stream = self.client.chat.completions.create(
-            model=model,
-            messages=messages_with_system,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            stream=True
-        )
+        
+        # Prepare request parameters
+        request_params = {
+            "model": model,
+            "messages": messages_with_system,
+            "temperature": temperature,
+            "stream": True
+        }
+        
+        # Only add max_tokens if it's specified
+        if max_tokens is not None:
+            request_params["max_tokens"] = max_tokens
+            
+        stream = self.client.chat.completions.create(**request_params)
         for chunk in stream:
             content = chunk.choices[0].delta.content
             if content:
@@ -51,9 +58,12 @@ class GoogleProvider(LLMProvider):
     def chat_stream(self, messages, model, temperature, max_tokens, system_prompt):
         generation_config = {
             "temperature": temperature,
-            "max_output_tokens": max_tokens,
         }
         
+        # Only add max_output_tokens if max_tokens is specified
+        if max_tokens is not None:
+            generation_config["max_output_tokens"] = max_tokens
+            
         # Configure safety settings to be less restrictive
         safety_settings = [
             {
@@ -117,13 +127,19 @@ class AnthropicProvider(LLMProvider):
         return ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"]
 
     def chat_stream(self, messages, model, temperature, max_tokens, system_prompt):
-        with self.client.messages.stream(
-            model=model,
-            messages=messages,
-            system=system_prompt,
-            temperature=temperature,
-            max_tokens=max_tokens
-        ) as stream:
+        # Prepare request parameters
+        request_params = {
+            "model": model,
+            "messages": messages,
+            "system": system_prompt,
+            "temperature": temperature,
+        }
+        
+        # Only add max_tokens if it's specified
+        if max_tokens is not None:
+            request_params["max_tokens"] = max_tokens
+            
+        with self.client.messages.stream(**request_params) as stream:
             for text in stream.text_stream:
                 yield text
 
@@ -138,13 +154,20 @@ class DeepSeekProvider(LLMProvider):
 
     def chat_stream(self, messages, model, temperature, max_tokens, system_prompt):
         messages_with_system = [{"role": "system", "content": system_prompt}] + messages
-        stream = self.client.chat.completions.create(
-            model=model,
-            messages=messages_with_system,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            stream=True
-        )
+        
+        # Prepare request parameters
+        request_params = {
+            "model": model,
+            "messages": messages_with_system,
+            "temperature": temperature,
+            "stream": True
+        }
+        
+        # Only add max_tokens if it's specified
+        if max_tokens is not None:
+            request_params["max_tokens"] = max_tokens
+            
+        stream = self.client.chat.completions.create(**request_params)
         for chunk in stream:
             content = chunk.choices[0].delta.content
             if content:

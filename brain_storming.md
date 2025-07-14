@@ -30,7 +30,7 @@
   * Tạo prompt mới
   * Chỉnh sửa prompt
   * Xóa prompt
-* Lưu trữ trên MongoDB (collection: `prompts`)
+* Lưu trữ trên MongoDB (collection: `system_prompts`)
 * Thêm metadata: `created_at`, `used_count`, `tags`
 
 ### 2. **Chat AI qua API**
