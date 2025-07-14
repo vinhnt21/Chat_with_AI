@@ -38,7 +38,7 @@ def setup_sidebar():
         # Nhập user key thay vì MongoDB URI
         user_key_input = st.text_input(
             "🔐 User Key",
-            type="password",
+            type="default",
             value=st.session_state.get("user_key", ""),
             help="Nhập ADMIN hoặc GUEST key để truy cập"
         )
