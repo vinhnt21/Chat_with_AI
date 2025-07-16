@@ -124,6 +124,7 @@ def process_task(prompt_template, input_text, task_name):
             messages=messages,
             model=selected_model,
             temperature=temperature,
+            max_tokens=None,  # Để LLM provider tự quyết định giới hạn token
             system_prompt=f"Bạn là một chuyên gia {task_name}. Hãy thực hiện nhiệm vụ một cách chính xác và chi tiết."
         )
         
@@ -225,9 +226,7 @@ if st.button("🚀 Phân tích ngay", type="primary", use_container_width=True):
                 char_count = len(input_text)
                 st.caption(f"📈 Thống kê: {word_count} từ, {char_count} ký tự")
                 
-                # Option to view as code/plain text
-                if st.button("👁️ Xem dạng văn bản thuần", key="view_plain"):
-                    st.code(input_text)
+              
                     
             except Exception as e:
                 # If markdown rendering fails, show as plain text
