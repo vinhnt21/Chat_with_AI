@@ -51,6 +51,7 @@ pages = [
     st.Page("pages/4_🎨_Prompt_Template_Manager.py", title="Prompt Template Manager", icon="🎨"),
     st.Page("pages/2_📝_System_Prompt_Manager.py", title="System Prompt Manager", icon="📝"),    
     st.Page("pages/1_💬_Chat_AI.py", title="Chat AI", icon="💬"),
+    st.Page("pages/5_🧠_Gen_MarkMap.py", title="Gen MarkMap", icon="🧠"),
 ]
 
 # Create navigation

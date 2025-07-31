@@ -61,6 +61,13 @@ def setup_sidebar():
             st.session_state.user_group = None
             st.session_state.mongo_uri = None
 
+
+
+        st.session_state.api_key = st.text_input(
+            f"🔑 API Key cho {st.session_state.api_provider}",
+            type="password",
+            value=st.session_state.get("api_key", "")
+        )
         # Cập nhật danh sách nhà cung cấp
         providers = ["OpenAI", "Google", "Anthropic", "DeepSeek"]
         st.session_state.api_provider = st.selectbox(
@@ -68,13 +75,6 @@ def setup_sidebar():
             providers,
             index=providers.index(st.session_state.get("api_provider", "OpenAI"))
         )
-
-        st.session_state.api_key = st.text_input(
-            f"🔑 API Key cho {st.session_state.api_provider}",
-            type="password",
-            value=st.session_state.get("api_key", "")
-        )
-
         st.markdown("---")
         
         # Hiển thị thông tin user hiện tại

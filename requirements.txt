@@ -9,4 +9,5 @@ langchain-google-genai
 langchain-anthropic
 pandas
 dnspython
-certifi 
+certifi
+PyPDF2 
