@@ -124,7 +124,19 @@ class AnthropicProvider(LLMProvider):
         self.client = anthropic.Anthropic(api_key=self.api_key)
 
     def get_models(self):
-        return ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"]
+        '''
+        Model	Anthropic API	AWS Bedrock	GCP Vertex AI
+Claude Opus 4.1	claude-opus-4-1-20250805	anthropic.claude-opus-4-1-20250805-v1:0	claude-opus-4-1@20250805
+Claude Opus 4	claude-opus-4-20250514	anthropic.claude-opus-4-20250514-v1:0	claude-opus-4@20250514
+Claude Sonnet 4	claude-sonnet-4-20250514	anthropic.claude-sonnet-4-20250514-v1:0	claude-sonnet-4@20250514
+Claude Sonnet 3.7	claude-3-7-sonnet-20250219 (claude-3-7-sonnet-latest)	anthropic.claude-3-7-sonnet-20250219-v1:0	claude-3-7-sonnet@20250219
+Claude Haiku 3.5	claude-3-5-haiku-20241022 (claude-3-5-haiku-latest)	anthropic.claude-3-5-haiku-20241022-v1:0	claude-3-5-haiku@20241022
+Model	Anthropic API	AWS Bedrock	GCP Vertex AI
+Claude Sonnet 3.5 v2	claude-3-5-sonnet-20241022 (claude-3-5-sonnet-latest)	anthropic.claude-3-5-sonnet-20241022-v2:0	claude-3-5-sonnet-v2@20241022
+Claude Sonnet 3.5	claude-3-5-sonnet-20240620	anthropic.claude-3-5-sonnet-20240620-v1:0	claude-3-5-sonnet@20240620
+Claude Haiku 3	claude-3-haiku-20240307	anthropic.claude-3-haiku-20240307-v1:0	claude-3-haiku@20240307
+        '''
+        return ["claude-opus-4-1-20250805", "claude-opus-4-20250514", "claude-sonnet-4-20250514", "claude-3-7-sonnet-20250219", "claude-3-5-haiku-20241022", "claude-3-5-sonnet-20241022", "claude-3-5-sonnet-20240620", "claude-3-haiku-20240307"]
 
     def chat_stream(self, messages, model, temperature, max_tokens, system_prompt):
         # Prepare request parameters
